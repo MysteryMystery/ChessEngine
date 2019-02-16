@@ -2,6 +2,8 @@ package me.jamesattfield.chessengine.api.board.piece;
 
 import me.jamesattfield.chessengine.api.board.location.Coordinate;
 
+import java.util.Collection;
+
 public abstract class GamePiece {
     private PieceColour pieceColour;
 
@@ -9,11 +11,11 @@ public abstract class GamePiece {
         this.pieceColour = colour;
     }
 
-    public abstract void moveTo(Coordinate coordinate);
+    public abstract boolean canMoveTo(Coordinate from, Coordinate to);
 
-    public abstract void canMoveTo(Coordinate coordinate);
+    public abstract Collection<Coordinate> validMoveLocations(Coordinate currentLocation);
 
-    public abstract void canTake(Coordinate coordinate);
+    //public abstract boolean canTake(Coordinate coordinate);
 
     public PieceColour getPieceColour(){
         return pieceColour;

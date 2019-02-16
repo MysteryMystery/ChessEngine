@@ -2,6 +2,8 @@ package me.jamesattfield.chessengine.api.board.piece;
 
 import me.jamesattfield.chessengine.api.board.location.Coordinate;
 
+import java.util.Collection;
+
 public class Castle extends GamePiece {
 
     public Castle(PieceColour colour) {
@@ -9,18 +11,13 @@ public class Castle extends GamePiece {
     }
 
     @Override
-    public void moveTo(Coordinate coordinate) {
-
+    public boolean canMoveTo(Coordinate from, Coordinate to) {
+        return false;
     }
 
     @Override
-    public void canMoveTo(Coordinate coordinate) {
-
-    }
-
-    @Override
-    public void canTake(Coordinate coordinate) {
-
+    public Collection<Coordinate> validMoveLocations(Coordinate currentLocation) {
+        return null;
     }
 
     @Override

@@ -1,12 +1,20 @@
 package me.jamesattfield.chessengine.api.board;
 
+import me.jamesattfield.chessengine.api.board.location.Coordinate;
 import me.jamesattfield.chessengine.api.board.piece.*;
+
+import java.util.Optional;
 
 public class ChessBoard {
     private GamePiece[][] board = new GamePiece[8][8];
 
     public ChessBoard(){
         setupBoard();
+    }
+
+    public Optional<GamePiece> getPieceAt(Coordinate coordinate){
+        GamePiece gamePiece = board[coordinate.getX()][coordinate.getY()];
+        return gamePiece == null ? Optional.empty() : Optional.of(gamePiece);
     }
 
     private void setupBoard(){
@@ -39,6 +47,18 @@ public class ChessBoard {
             for (int j = 0; j < 8; j ++)
                 System.out.print(board[i][j] == null ? " " : board[i][j]);
             System.out.println();
+        }
+    }
+
+    public void movePiece(Coordinate from, Coordinate to) throws Exception{
+        Optional<GamePiece> gamePieceOptional = getPieceAt(from);
+        if (!gamePieceOptional.isPresent())
+            throw new Exception("Coordinate " + from.toString() + " contains no chess piece.");
+
+        GamePiece gamePiece = gamePieceOptional.get();
+        if (gamePiece.canMoveTo(from, to)){
+            board[from.getX()][from.getY()] = null;
+            board[to.getX()][to.getY()] = gamePiece;
         }
     }
 }
