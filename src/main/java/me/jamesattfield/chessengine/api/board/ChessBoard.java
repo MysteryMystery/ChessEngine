@@ -3,6 +3,8 @@ package me.jamesattfield.chessengine.api.board;
 import me.jamesattfield.chessengine.api.board.location.Coordinate;
 import me.jamesattfield.chessengine.api.board.piece.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class ChessBoard {
@@ -15,6 +17,10 @@ public class ChessBoard {
     public Optional<GamePiece> getPieceAt(Coordinate coordinate){
         GamePiece gamePiece = board[coordinate.getX()][coordinate.getY()];
         return gamePiece == null ? Optional.empty() : Optional.of(gamePiece);
+    }
+
+    public boolean isOccupied(Coordinate coordinate){
+        return getPieceAt(coordinate).isPresent();
     }
 
     private void setupBoard(){
@@ -56,9 +62,40 @@ public class ChessBoard {
             throw new Exception("Coordinate " + from.toString() + " contains no chess piece.");
 
         GamePiece gamePiece = gamePieceOptional.get();
-        if (gamePiece.canMoveTo(from, to)){
+        if (gamePiece.canMoveTo(from, to, this)){
             board[from.getX()][from.getY()] = null;
             board[to.getX()][to.getY()] = gamePiece;
         }
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 8; i ++){
+            for (int j = 0; j < 8; j ++)
+                sb.append(board[i][j] == null ? " " : board[i][j]);
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    public GamePiece[][] getBoard() {
+        return board;
+    }
+
+    public Map<GamePiece, Coordinate> getOccupiedCells(){
+        Map<GamePiece, Coordinate> cells = new HashMap<>();
+        for (int i = 0; i < 8; i ++){
+            for (int j = 0; j < 8; j ++){
+                GamePiece gamePiece = board[i][j];
+                if (gamePiece != null)
+                    try {
+                        cells.put(gamePiece, new Coordinate(i, j));
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+            }
+        }
+        return cells;
     }
 }

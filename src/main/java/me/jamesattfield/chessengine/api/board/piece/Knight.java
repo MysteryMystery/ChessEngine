@@ -1,5 +1,6 @@
 package me.jamesattfield.chessengine.api.board.piece;
 
+import me.jamesattfield.chessengine.api.board.ChessBoard;
 import me.jamesattfield.chessengine.api.board.location.Coordinate;
 
 import java.util.Collection;
@@ -11,12 +12,7 @@ public class Knight extends GamePiece {
     }
 
     @Override
-    public boolean canMoveTo(Coordinate from, Coordinate to) {
-        return false;
-    }
-
-    @Override
-    public Collection<Coordinate> validMoveLocations(Coordinate currentLocation) {
+    public Collection<Coordinate> validMoveLocations(Coordinate currentLocation, ChessBoard chessBoard) {
         return null;
     }
 

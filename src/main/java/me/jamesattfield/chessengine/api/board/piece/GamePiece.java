@@ -1,5 +1,6 @@
 package me.jamesattfield.chessengine.api.board.piece;
 
+import me.jamesattfield.chessengine.api.board.ChessBoard;
 import me.jamesattfield.chessengine.api.board.location.Coordinate;
 
 import java.util.Collection;
@@ -11,9 +12,11 @@ public abstract class GamePiece {
         this.pieceColour = colour;
     }
 
-    public abstract boolean canMoveTo(Coordinate from, Coordinate to);
+    public boolean canMoveTo(Coordinate from, Coordinate to, ChessBoard chessBoard){
+        return validMoveLocations(from, chessBoard).contains(to);
+    }
 
-    public abstract Collection<Coordinate> validMoveLocations(Coordinate currentLocation);
+    public abstract Collection<Coordinate> validMoveLocations(Coordinate currentLocation, ChessBoard chessBoard);
 
     //public abstract boolean canTake(Coordinate coordinate);
 

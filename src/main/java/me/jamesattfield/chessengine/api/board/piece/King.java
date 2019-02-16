@@ -12,12 +12,7 @@ public class King extends GamePiece {
     }
 
     @Override
-    public boolean canMoveTo(Coordinate from, Coordinate to) {
-        return false;
-    }
-
-    @Override
-    public Collection<Coordinate> validMoveLocations(Coordinate currentLocation) {
+    public Collection<Coordinate> validMoveLocations(Coordinate currentLocation, ChessBoard chessBoard) {
         return null;
     }
 
