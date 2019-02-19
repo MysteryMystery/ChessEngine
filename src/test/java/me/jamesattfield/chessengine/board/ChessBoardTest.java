@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ChessBoardTest {
 
-    ChessBoard chessBoard = new ChessBoard();
+    private ChessBoard chessBoard = new ChessBoard();
 
     @Test
     public void testInitialBoardLayout(){

@@ -1,21 +1,29 @@
 package me.jamesattfield.chessengine.api.board;
 
 import me.jamesattfield.chessengine.api.board.location.Coordinate;
+import me.jamesattfield.chessengine.api.board.location.Vector2D;
 import me.jamesattfield.chessengine.api.board.piece.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ChessBoard {
     private GamePiece[][] board = new GamePiece[8][8];
+    private List<GamePiece> takenPieces = new ArrayList<>();
+    private ChessBoardEvaluator evaluator;
 
     public ChessBoard(){
         setupBoard();
+        evaluator = new ChessBoardEvaluator(this);
+    }
+
+    public ChessBoardEvaluator getEvaluator() {
+        return evaluator;
     }
 
     public Optional<GamePiece> getPieceAt(Coordinate coordinate){
-        GamePiece gamePiece = board[coordinate.getX()][coordinate.getY()];
+        GamePiece gamePiece = board[coordinate.getVector2D().getX()][coordinate.getVector2D().getY()];
         return gamePiece == null ? Optional.empty() : Optional.of(gamePiece);
     }
 
@@ -63,8 +71,8 @@ public class ChessBoard {
 
         GamePiece gamePiece = gamePieceOptional.get();
         if (gamePiece.canMoveTo(from, to, this)){
-            board[from.getX()][from.getY()] = null;
-            board[to.getX()][to.getY()] = gamePiece;
+            board[from.getVector2D().getX()][from.getVector2D().getY()] = null;
+            board[to.getVector2D().getX()][to.getVector2D().getY()] = gamePiece;
         }
     }
 
@@ -90,12 +98,28 @@ public class ChessBoard {
                 GamePiece gamePiece = board[i][j];
                 if (gamePiece != null)
                     try {
-                        cells.put(gamePiece, new Coordinate(i, j));
+                        cells.put(gamePiece, new Coordinate(new Vector2D(i, j)));
                     }catch (Exception e){
                         e.printStackTrace();
                     }
             }
         }
         return cells;
+    }
+
+    public Collection<GamePiece> getPieces(){
+        return getOccupiedCells().keySet();
+    }
+
+    public Stream<GamePiece> getPieces(PieceColour pieceColour){
+        return  getPieces().stream().filter(p -> p.getPieceColour() == pieceColour);
+    }
+
+    public List<GamePiece> getTakenPieces() {
+        return takenPieces;
+    }
+
+    public Stream<GamePiece> getTakenPieces(PieceColour pieceColour){
+        return getTakenPieces().stream().filter(p -> p.getPieceColour() == pieceColour);
     }
 }
