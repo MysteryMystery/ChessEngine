@@ -69,6 +69,8 @@ public class ChessBoard {
         if (!gamePieceOptional.isPresent())
             throw new Exception("Coordinate " + from.toString() + " contains no chess piece.");
 
+        getPieceAt(to).ifPresent(gamePiece -> takenPieces.add(gamePiece));
+
         GamePiece gamePiece = gamePieceOptional.get();
         if (gamePiece.canMoveTo(from, to, this)){
             board[from.getVector2D().getX()][from.getVector2D().getY()] = null;
@@ -111,15 +113,15 @@ public class ChessBoard {
         return getOccupiedCells().keySet();
     }
 
-    public Stream<GamePiece> getPieces(PieceColour pieceColour){
-        return  getPieces().stream().filter(p -> p.getPieceColour() == pieceColour);
+    public Collection<GamePiece> getPieces(PieceColour pieceColour){
+        return  getPieces().stream().filter(p -> p.getPieceColour() == pieceColour).collect(Collectors.toList());
     }
 
-    public List<GamePiece> getTakenPieces() {
+    public Collection<GamePiece> getTakenPieces() {
         return takenPieces;
     }
 
-    public Stream<GamePiece> getTakenPieces(PieceColour pieceColour){
-        return getTakenPieces().stream().filter(p -> p.getPieceColour() == pieceColour);
+    public Collection<GamePiece> getTakenPieces(PieceColour pieceColour){
+        return getTakenPieces().stream().filter(p -> p.getPieceColour() == pieceColour).collect(Collectors.toList());
     }
 }

@@ -5,14 +5,26 @@ import java.util.Vector;
 public class Coordinate {
     private Vector2D vector2D;
 
-    public Coordinate(Vector2D vector2D) throws InvalidCoordinateException{
-        this.vector2D = vector2D;
+    public Coordinate(Vector2D vector2D) {
+        int x, y;
 
-        int x = vector2D.getX();
-        int y = vector2D.getY();
+        if (vector2D.getX() > 8)
+            x = 8;
+        else if(vector2D.getX() < 0)
+            x = 0;
+        else
+            x = vector2D.getX();
 
-        if ((x < 0 || x > 8) || (y < 0 || y > 8))
-            throw new InvalidCoordinateException("Coordinate restraints must be within -1 < x < 9.");
+        if (vector2D.getY() > 8)
+            y = 8;
+        else if(vector2D.getY() < 0)
+            y = 0;
+        else
+            y = vector2D.getY();
+
+        this.vector2D = new Vector2D(x, y);
+        /*if ((x < 0 || x > 8) || (y < 0 || y > 8))
+            throw new InvalidCoordinateException("Coordinate restraints must be within -1 < x < 9.");*/
     }
 
     public boolean isValid(){
